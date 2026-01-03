@@ -174,6 +174,12 @@ vim.o.confirm = true
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
+
+local first_arg = vim.fn.argv(0)
+if type(first_arg) == 'string' and first_arg ~= '' and vim.fn.isdirectory(first_arg) == 1 then
+  vim.api.nvim_set_current_dir(tostring(first_arg))
+end
+
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
@@ -190,15 +196,15 @@ vim.keymap.set('n', 'c', '"_c')
 vim.keymap.set('n', 'cc', '"_cc')
 vim.keymap.set('v', 'c', '"_c')
 
-vim.keymap.set('n', 'x', ':q<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', 't', ':tabnext<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', 'T', ':tabprevious<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'x', ':bdelete<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 't', ':bnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'T', ':bprevious<CR>', { noremap = true, silent = true })
 
-vim.keymap.set('n', 'tt', function()
-  vim.cmd 'split'
+vim.keymap.set('n', 'ee', function()
+  -- vim.cmd 'split'
   vim.cmd 'term'
-  vim.cmd 'startinsert'
-end, { desc = 'Terminal: Horizontal Split' })
+  -- vim.cmd 'startinsert'
+end, { desc = 'Terminal' })
 
 vim.keymap.set('n', 's', ':w<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'gs', 'gcc', { remap = true, desc = 'Toggle comment line' })
@@ -210,7 +216,7 @@ vim.keymap.set('v', 'gs', 'gc', { remap = true, desc = 'Toggle comment selection
 --
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>:q<CR>', { desc = 'Exit terminal mode' })
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -989,6 +995,27 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  },
+  {
+    'akinsho/bufferline.nvim',
+    version = '*',
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    config = function()
+      require('bufferline').setup {
+        options = {
+          offsets = {
+            {
+              filetype = 'neo-tree',
+              text = 'File Explorer',
+              text_align = 'left',
+              separator = true,
+            },
+          },
+          show_buffer_close_icons = true,
+          show_close_icon = true,
+        },
+      }
+    end,
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
