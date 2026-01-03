@@ -179,6 +179,8 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+-- Customized keymap:
+
 vim.keymap.set({ 'n', 'v', 'o' }, 'J', '5j', { noremap = true })
 vim.keymap.set({ 'n', 'v', 'o' }, 'K', '5k', { noremap = true })
 vim.keymap.set({ 'n', 'v', 'o' }, 'H', '5h', { noremap = true })
@@ -188,13 +190,27 @@ vim.keymap.set('n', 'c', '"_c')
 vim.keymap.set('n', 'cc', '"_cc')
 vim.keymap.set('v', 'c', '"_c')
 
+vim.keymap.set('n', 'x', ':q<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 't', ':tabnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'T', ':tabprevious<CR>', { noremap = true, silent = true })
+
+vim.keymap.set('n', 'tt', function()
+  vim.cmd 'split'
+  vim.cmd 'term'
+  vim.cmd 'startinsert'
+end, { desc = 'Terminal: Horizontal Split' })
+
+vim.keymap.set('n', 's', ':w<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'gs', 'gcc', { remap = true, desc = 'Toggle comment line' })
+vim.keymap.set('v', 'gs', 'gc', { remap = true, desc = 'Toggle comment selection' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
 --
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>:q<CR>', { desc = 'Exit terminal mode' })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -230,7 +246,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.hl.on_yank()
   end,
 })
-
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -565,11 +580,11 @@ require('lazy').setup({
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
-          map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
-          map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
