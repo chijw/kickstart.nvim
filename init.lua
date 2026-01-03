@@ -90,6 +90,8 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.opt.clipboard = 'unnamedplus'
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
 
@@ -175,6 +177,15 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
+vim.keymap.set({ 'n', 'v', 'o' }, 'J', '5j', { noremap = true })
+vim.keymap.set({ 'n', 'v', 'o' }, 'K', '5k', { noremap = true })
+vim.keymap.set({ 'n', 'v', 'o' }, 'H', '5h', { noremap = true })
+vim.keymap.set({ 'n', 'v', 'o' }, 'L', '5l', { noremap = true })
+
+vim.keymap.set('n', 'c', '"_c')
+vim.keymap.set('n', 'cc', '"_cc')
+vim.keymap.set('v', 'c', '"_c')
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -941,7 +952,7 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    main = 'nvim-treesitter.config', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
