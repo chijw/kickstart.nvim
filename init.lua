@@ -105,7 +105,6 @@ vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
 -- vim.o.relativenumber = true
-
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
 
@@ -868,7 +867,26 @@ require('lazy').setup({
         -- <c-k>: Toggle signature help
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
-        preset = 'super-tab',
+        -- preset = 'super-tab',
+        ['<Tab>'] = {
+          function(cmp)
+            local copilot = require 'copilot.suggestion'
+            if copilot.is_visible() then
+              copilot.accept()
+              return true
+            end
+            if cmp.is_visible() then
+              return cmp.select_and_accept()
+            end
+          end,
+          'snippet_forward',
+          'fallback',
+        },
+        ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+
+        ['<C-space>'] = { 'show', 'show_documentation', 'hide' },
+        ['<C-e>'] = { 'hide' },
+        ['<CR>'] = { 'accept', 'fallback' },
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
@@ -1021,6 +1039,14 @@ require('lazy').setup({
     end,
   },
   {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    opts = {
+      check_ts = true,
+      enable_check_bracket_line = true,
+    },
+  },
+  {
     'zbirenbaum/copilot.lua',
     cmd = 'Copilot',
     event = 'InsertEnter',
@@ -1031,9 +1057,9 @@ require('lazy').setup({
           auto_trigger = true,
           debounce = 75,
           keymap = {
-            accept = '<C-l>',
-            accept_word = false,
-            accept_line = false,
+            accept = false,
+            -- accept_word = false,
+            -- accept_line = false,
             -- next = '<C-]>',
             -- prev = '<C-[>',
             -- dismiss = '<C-:>',
@@ -1068,7 +1094,6 @@ require('lazy').setup({
       }
     end,
   },
-
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
