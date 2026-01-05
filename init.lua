@@ -87,6 +87,10 @@ P.S. You can delete this when you're done too. It's your config now! :)
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
+if vim.fn.has 'gui_running' == 0 then
+  pcall(vim.fn.serverstart, '/tmp/nvimsocket')
+end
+--
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -133,7 +137,7 @@ vim.o.smartcase = true
 vim.o.signcolumn = 'yes'
 
 -- Decrease update time
-vim.o.updatetime = 250
+vim.o.updatetime = 100
 
 -- Decrease mapped sequence wait time
 vim.o.timeoutlen = 300
@@ -173,6 +177,24 @@ vim.o.confirm = true
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
+
+-- vim.g.vimtex_view_method = 'skim'
+-- vim.g.vimtex_view_skim_activate = 0
+-- vim.g.vimtex_view_skim_sync = 1
+-- vim.g.vimtex_compiler_method = 'latexmk'
+-- vim.g.vimtex_compiler_latexmk_engines = {
+--   _ = 'xelatex',
+-- }
+-- vim.g.vimtex_compiler_latexmk = {
+--   build_dir = 'build',
+--   options = {
+--     '-synctex=1',
+--     '-interaction=nonstopmode',
+--     '-file-line-error',
+--   },
+-- }
+-- vim.g.vimtex_quickfix_open_on_warning = 0
+-- vim.g.vimtex_quickfix_mode = 0
 
 local first_arg = vim.fn.argv(0)
 if type(first_arg) == 'string' and first_arg ~= '' and vim.fn.isdirectory(first_arg) == 1 then
@@ -389,7 +411,6 @@ require('lazy').setup({
   -- you do for a plugin at the top level, you can do for a dependency.
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
-
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
@@ -461,6 +482,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>sF', ':Telescope find_files cwd=', { desc = '[S]earch [F]iles with specific cwd' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
@@ -492,6 +514,40 @@ require('lazy').setup({
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
     end,
+  },
+
+  {
+    'mikavilpas/yazi.nvim',
+    event = 'VeryLazy',
+    keys = {
+      {
+        '<leader>y',
+        function()
+          require('yazi').yazi()
+        end,
+        desc = 'Open yazi at the current file',
+      },
+      {
+        '<leader>Y',
+        function()
+          require('yazi').yazi(nil, vim.fn.getcwd())
+        end,
+        desc = "Open yazi in nvim's working directory",
+      },
+      {
+        '<leader>iw',
+        function()
+          require('yazi').toggle()
+        end,
+        desc = 'Resume the last yazi session',
+      },
+    },
+    opts = {
+      open_for_directories = true,
+      keymaps = {
+        show_help = '<f1>',
+      },
+    },
   },
 
   -- LSP Plugins
@@ -1005,6 +1061,7 @@ require('lazy').setup({
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
+        disable = { 'latex', 'tex' },
         additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby' } },
@@ -1046,6 +1103,25 @@ require('lazy').setup({
       enable_check_bracket_line = true,
     },
   },
+  -- {
+  --   'lervag/vimtex',
+  --   lazy = false,
+  --   config = function()
+  --     vim.api.nvim_create_autocmd('FileType', {
+  --       pattern = 'tex',
+  --       callback = function()
+  --         local opts = { buffer = true, silent = true }
+  --         vim.keymap.set('n', '<leader>ll', '<cmd>VimtexCompile<cr>', opts)
+  --         vim.keymap.set('n', '<leader>lv', '<cmd>VimtexView<cr>', opts)
+  --         vim.keymap.set('n', '<leader>lc', '<cmd>VimtexClean<cr>', opts)
+  --         vim.keymap.set('n', '<leader>lt', '<cmd>VimtexTocOpen<cr>', opts)
+  --         vim.keymap.set('n', '<leader>le', '<cmd>VimtexErrors<cr>', opts)
+  --         vim.keymap.set('n', '<leader>lk', '<cmd>VimtexStop<cr>', opts)
+  --       end,
+  --     })
+  --   end,
+  -- },
+
   {
     'zbirenbaum/copilot.lua',
     cmd = 'Copilot',
