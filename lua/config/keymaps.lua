@@ -13,9 +13,11 @@ vim.keymap.set('n', 'cc', '"_cc')
 vim.keymap.set('v', 'c', '"_c')
 
 -- close/switch buffers
-vim.keymap.set('n', 'x', ':q<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'x', ':bdelete<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 't', ':bnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'T', ':bprevious<CR>', { noremap = true, silent = true })
+
+vim.keymap.set('n', '<leader>x', ':q<CR>', { noremap = true, silent = true, desc = 'Close current window' })
 
 vim.keymap.set('n', 'ee', function()
   vim.cmd 'term'
