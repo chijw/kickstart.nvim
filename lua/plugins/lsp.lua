@@ -184,7 +184,6 @@ return {
       --   },
       -- },
       -- ruff = {},
-
       lua_ls = {
         -- cmd = { ... },
         -- filetypes = { ... },

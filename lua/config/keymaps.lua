@@ -12,17 +12,7 @@ vim.keymap.set('n', 'c', '"_c')
 vim.keymap.set('n', 'cc', '"_cc')
 vim.keymap.set('v', 'c', '"_c')
 
--- close/switch buffers
-vim.keymap.set('n', 'x', ':bdelete<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', 't', ':bnext<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', 'T', ':bprevious<CR>', { noremap = true, silent = true })
-
 vim.keymap.set('n', '<leader>x', ':q<CR>', { noremap = true, silent = true, desc = 'Close current window' })
-
-vim.keymap.set('n', 'ee', function()
-  vim.cmd 'term'
-  vim.cmd 'startinsert'
-end, { desc = 'Terminal' })
 
 vim.keymap.set('n', 's', ':w<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'gs', 'gcc', { remap = true, desc = 'Toggle comment line' })
@@ -47,6 +37,19 @@ vim.keymap.set('n', 'eh', ':set nosplitright<CR>:vsplit<CR>')
 vim.keymap.set('n', 'el', ':set splitright<CR>:vsplit<CR>')
 vim.keymap.set('n', 'ej', ':set nosplitbelow<CR>:split<CR>')
 vim.keymap.set('n', 'ek', ':set splitbelow<CR>:split<CR>')
+
+vim.keymap.set('n', 't', ':tabnext<CR>')
+vim.keymap.set('n', 'T', ':tabprev<CR>')
+vim.keymap.set('n', 'et', ':tab split<CR>')
+vim.keymap.set('n', 'ee', function()
+  vim.cmd 'term'
+  vim.cmd 'startinsert'
+end, { desc = 'Terminal' })
+
+-- close/switch buffers
+vim.keymap.set('n', 'x', ':bdelete<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'r', ':bnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'R', ':bprevious<CR>', { noremap = true, silent = true })
 
 vim.keymap.set('n', '<up>', ':res +5<CR>')
 vim.keymap.set('n', '<down>', ':res -5<CR>')

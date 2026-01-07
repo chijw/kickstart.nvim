@@ -12,6 +12,12 @@ return {
       styles = {
         comments = { italic = false }, -- Disable italics in comments
       },
+      on_highlights = function(hl, _)
+        hl.WinSeparator = {
+          fg = '#888888',
+          bold = true,
+        }
+      end,
     }
     -- Load the colorscheme here.
     -- Like many other themes, this one has different styles, and you could load
