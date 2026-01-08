@@ -17,21 +17,21 @@ return {
           -- dismiss = '<C-:>',
         },
       },
-      -- panel = {
-      --   enabled = true,
-      --   auto_refresh = false,
-      --   keymap = {
-      --     jump_prev = '[[',
-      --     jump_next = ']]',
-      --     accept = '<CR>',
-      --     refresh = 'gr',
-      --     open = '<M-p>',
-      --   },
-      --   layout = {
-      --     position = 'bottom',
-      --     ratio = 0.4,
-      --   },
-      -- },
+      panel = {
+        enabled = true,
+        auto_refresh = false,
+        keymap = {
+          jump_prev = '[[',
+          jump_next = ']]',
+          accept = '<CR>',
+          refresh = 'gr',
+          open = '<C-p>',
+        },
+        layout = {
+          position = 'bottom',
+          ratio = 0.4,
+        },
+      },
       -- filetypes = {
       --   markdown = true,
       --   help = false,
@@ -44,5 +44,13 @@ return {
       -- },
       copilot_node_command = 'node',
     }
+
+    vim.keymap.set('i', '<Tab>', function()
+      if require('copilot.suggestion').is_visible() then
+        require('copilot.suggestion').accept()
+      else
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, true, true), 'n', false)
+      end
+    end, { desc = 'Accept Copilot suggestion or normal Tab' })
   end,
 }

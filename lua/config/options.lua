@@ -17,6 +17,7 @@ vim.o.timeoutlen = 300
 
 vim.o.splitright = true
 vim.o.splitbelow = true
+vim.o.laststatus = 3
 
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
@@ -30,7 +31,13 @@ vim.o.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 vim.opt.fillchars = {
-  vert = '%',
+  vert = '│',
+  horiz = '─',
+  horizup = '┴',
+  horizdown = '┬',
+  vertleft = '┤',
+  vertright = '├',
+  verthoriz = '┼',
 }
 
 -- Preview substitutions live, as you type!
@@ -42,3 +49,5 @@ vim.o.scrolloff = 10
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.o.confirm = true
+
+vim.opt.termguicolors = true
