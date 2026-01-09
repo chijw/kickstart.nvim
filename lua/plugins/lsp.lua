@@ -36,7 +36,6 @@ return {
         --  This is where a variable was first declared, or where a function is defined, etc.
         --  To jump back, press <C-t>.
         map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-
         -- WARN: This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
         map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -168,12 +167,11 @@ return {
       --   settings = {
       --     pyright = {
       --       disableOrganizeImports = true,
+      --       disableTaggedHints = true,
       --     },
       --     python = {
       --       analysis = {
-      --         ignore = { '*' },
-      --
-      --         typeCheckingMode = 'off',
+      --         typeCheckingMode = 'basic',
       --         diagnosticSeverityOverrides = {
       --           reportUnusedVariable = 'none',
       --           reportUnusedImport = 'none',
@@ -183,7 +181,7 @@ return {
       --     },
       --   },
       -- },
-      -- ruff = {},
+      ruff = {},
       lua_ls = {
         -- cmd = { ... },
         -- filetypes = { ... },
@@ -215,15 +213,14 @@ return {
     -- for you, so that they are available from within Neovim.
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
-      'pyright',
+      -- 'pyright',
       -- 'ruff',
-      'debugpy',
+      -- 'debugpy',
       'stylua', -- Used to format Lua code
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-
     require('mason-lspconfig').setup {
-      ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+      ensure_installed = vim.tbl_keys(servers or {}),
       automatic_installation = false,
       handlers = {
         function(server_name)
