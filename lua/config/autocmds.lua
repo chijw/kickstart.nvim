@@ -17,3 +17,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.hl.on_yank()
   end,
 })
+
+if vim.env.SSH_TTY or vim.env.SSH_CONNECTION then
+  vim.api.nvim_create_autocmd('TextYankPost', {
+    callback = function()
+      local osc52 = require 'vim.ui.clipboard.osc52'
+      local copy_plus = osc52.copy '+'
+      copy_plus(vim.v.event.regcontents)
+      local copy_star = osc52.copy '*'
+      copy_star(vim.v.event.regcontents)
+    end,
+  })
+end
