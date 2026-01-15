@@ -17,21 +17,21 @@ return {
           -- dismiss = '<C-:>',
         },
       },
-      -- panel = {
-      --   enabled = true,
-      --   auto_refresh = false,
-      --   keymap = {
-      --     jump_prev = '[[',
-      --     jump_next = ']]',
-      --     accept = '<CR>',
-      --     refresh = 'gr',
-      --     open = '<M-p>',
-      --   },
-      --   layout = {
-      --     position = 'bottom',
-      --     ratio = 0.4,
-      --   },
-      -- },
+      panel = {
+        enabled = true,
+        auto_refresh = false,
+        keymap = {
+          jump_prev = '[[',
+          jump_next = ']]',
+          accept = '<CR>',
+          refresh = 'gr',
+          open = '<C-p>',
+        },
+        layout = {
+          position = 'bottom',
+          ratio = 0.4,
+        },
+      },
       -- filetypes = {
       --   markdown = true,
       --   help = false,
