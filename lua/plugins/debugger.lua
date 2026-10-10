@@ -62,7 +62,8 @@ return {
       desc = 'Debug: See last session result.',
     },
   },
-  config = function()
+  opts = { ensure_installed = { 'delve', 'debugpy' } },
+  config = function(_, opts)
     local dap = require 'dap'
     local dapui = require 'dapui'
 
@@ -77,11 +78,7 @@ return {
 
       -- You'll need to check that you have the required things installed
       -- online, please don't ask me how to install them :)
-      ensure_installed = {
-        -- Update this to ensure that you have the debuggers for the langs you want
-        'delve',
-        'debugpy',
-      },
+      ensure_installed = opts.ensure_installed,
     }
 
     -- Dap UI setup

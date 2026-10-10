@@ -59,8 +59,8 @@ return { -- Autocompletion
       -- preset = 'super-tab',
       ['<Tab>'] = {
         function(cmp)
-          local copilot = require 'copilot.suggestion'
-          if copilot.is_visible() then
+          local has_copilot, copilot = pcall(require, 'copilot.suggestion')
+          if has_copilot and copilot.is_visible() then
             copilot.accept()
             return true
           end
