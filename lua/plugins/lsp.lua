@@ -155,7 +155,6 @@ return {
     local servers = {
       -- clangd = {},
       -- gopls = {},
-      -- pyright = {},
       -- rust_analyzer = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
       --
@@ -164,25 +163,18 @@ return {
       --
       -- But for many setups, the LSP (`ts_ls`) will work just fine
       -- ts_ls = {},
-      -- pyright = {
-      --   settings = {
-      --     pyright = {
-      --       disableOrganizeImports = true,
-      --       disableTaggedHints = true,
-      --     },
-      --     python = {
-      --       analysis = {
-      --         typeCheckingMode = 'basic',
-      --         diagnosticSeverityOverrides = {
-      --           reportUnusedVariable = 'none',
-      --           reportUnusedImport = 'none',
-      --           reportUndefinedVariable = 'none',
-      --         },
-      --       },
-      --     },
-      --   },
-      -- },
-      ruff = {},
+      pyright = {
+        settings = {
+          pyright = { disableOrganizeImports = true },
+          python = { analysis = { typeCheckingMode = 'basic' } },
+        },
+      },
+      ruff = {
+        on_attach = function(client)
+          -- Use Pyright for symbol documentation; Ruff handles linting and formatting.
+          client.server_capabilities.hoverProvider = false
+        end,
+      },
       -- texlab = {},
       lua_ls = {
         -- cmd = { ... },
