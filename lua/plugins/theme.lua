@@ -34,15 +34,36 @@ return {
   config = function()
     require('catppuccin').setup {
       flavour = 'mocha',
+      -- Mocha accents on neutral, slightly lifted grays (no blue tint).
+      -- kitty and tmux use the same values; keep them in sync if you change these.
+      color_overrides = {
+        mocha = {
+          overlay2 = '#9d9da3',
+          overlay1 = '#85858b',
+          overlay0 = '#6c6c72',
+          surface2 = '#4a4a4f',
+          surface1 = '#3a3a3e',
+          surface0 = '#2c2c2f',
+          base = '#1f1f21',
+          mantle = '#18181a',
+          crust = '#121214',
+        },
+      },
+      -- Let kitty's translucent, blurred background show through; popups stay solid.
+      transparent_background = true,
+      float = { transparent = false, solid = false },
+      -- Inactive splits get a darker solid background, so the focused one stands out.
+      dim_inactive = { enabled = true, shade = 'dark', percentage = 0.15 },
       styles = {
-        comments = {},
+        comments = { 'italic' }, -- Cascadia's cursive italic
         conditionals = { 'italic' },
       },
       custom_highlights = function(colors)
-        local split = colors.yellow
         return {
-          WinSeparator = { fg = split, bold = true },
-          VertSplit = { fg = split, bold = true },
+          WinSeparator = { fg = colors.surface1 },
+          VertSplit = { fg = colors.surface1 },
+          ['@variable.parameter'] = { fg = colors.maroon, italic = true },
+          ['@variable.builtin'] = { fg = colors.red, italic = true }, -- self, cls
         }
       end,
       -- custom_highlights = function(colors)

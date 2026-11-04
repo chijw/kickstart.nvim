@@ -51,3 +51,10 @@ vim.o.scrolloff = 10
 vim.o.confirm = true
 
 vim.opt.termguicolors = true
+vim.o.winborder = 'rounded' -- LSP hover, signature help, diagnostics, ...
+
+-- No remote plugins use these; skipping them avoids probing for Python etc.
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
